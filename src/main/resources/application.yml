@@ -1,0 +1,16 @@
+server:
+  contextPath: /uaa
+  port: 9999
+
+security.user.password: password
+
+security:
+  oauth2:
+    client:
+      clientId: acme
+      clientSecret: acmesecret
+      authorized-grant-types: authorization_code, refresh_token, password
+      scope: openid
+
+logging.level:
+  org.springframework.security: DEBUG

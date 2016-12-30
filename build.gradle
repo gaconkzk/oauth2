@@ -1,6 +1,7 @@
 buildscript {
     ext {
         springBootVersion = '2.0.0.BUILD-SNAPSHOT'
+        springOAuth2Version = '2.0.13.BUILD-SNAPSHOT'
         lombokVersion = '1.16.12'
     }
     repositories {
