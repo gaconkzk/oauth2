@@ -2,7 +2,9 @@ server:
   contextPath: /uaa
   port: 9999
 
-security.user.password: password
+security.user:
+  password: password
+  authorities: ACTUATOR
 
 security:
   oauth2:

@@ -10,10 +10,13 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
@@ -22,6 +25,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @SpringBootApplication
 @RestController
 @EnableAuthorizationServer
+@SessionAttributes("authorizationRequest")
 @EnableResourceServer
 public class AuthApplication extends WebMvcConfigurerAdapter {
 
@@ -30,6 +34,12 @@ public class AuthApplication extends WebMvcConfigurerAdapter {
     return user;
   }
 
+  @Override
+  public void addViewControllers(ViewControllerRegistry registry) {
+    registry.addViewController("/login").setViewName("login");
+  }
+
+  // TODO: We need user details services, password encoder here
   @Configuration
   @Order(-20)
   protected  static class LoginConfig extends WebSecurityConfigurerAdapter {
@@ -39,10 +49,10 @@ public class AuthApplication extends WebMvcConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
       http
-          .formLogin()
+          .formLogin().loginPage("/login").permitAll()
           .and()
             .requestMatchers()
-            .antMatchers("/login","/oauth/authorize", "/oauth/confirm_access")
+            .antMatchers("/login","/oauth/authorize","/oauth/confirm_access")
           .and()
             .authorizeRequests()
               .anyRequest().authenticated();
