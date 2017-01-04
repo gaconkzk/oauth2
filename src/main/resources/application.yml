@@ -4,7 +4,6 @@ server:
 
 security.user:
   password: password
-  authorities: ACTUATOR
 
 security:
   oauth2:

@@ -1,7 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '2.0.0.BUILD-SNAPSHOT'
-        springOAuth2Version = '2.0.13.BUILD-SNAPSHOT'
+        springBootVersion = '1.4.3.RELEASE'
         lombokVersion = '1.16.12'
     }
     repositories {
@@ -19,8 +18,8 @@ apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 
 jar {
-    baseName = 'resource'
-    version = '0.0.1-SNAPSHOT'
+    baseName = 'oauth2'
+    version = '0.0.1'
 }
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
