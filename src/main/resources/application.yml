@@ -7,3 +7,4 @@ security.user:
 
 logging.level:
   org.springframework.security: DEBUG
+  com.tma.dc4b: DEBUG
