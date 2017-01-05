@@ -77,7 +77,7 @@ public class AuthApplication extends WebMvcConfigurerAdapter {
           .authorizedGrantTypes("authorization_code", "refresh_token", "password").scopes("openid");
     }
 
-    @Bean
+    @Bean(name = "jwtTokenStore")
     public TokenStore tokenStore() {
       return new JwtTokenStore(accessTokenConverter());
     }
@@ -106,9 +106,14 @@ public class AuthApplication extends WebMvcConfigurerAdapter {
   @EnableResourceServer
   protected static class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
+    @Autowired
+    private FLogoutSuccessHandler customLogoutSuccessHandler;
+
     @Override
     public void configure(HttpSecurity http) throws Exception {
       http.requestMatchers().anyRequest().and()
+          .logout().invalidateHttpSession(true).clearAuthentication(true)
+          .logoutSuccessHandler(customLogoutSuccessHandler).and()
           .authorizeRequests().anyRequest().permitAll();
     }
   }
@@ -127,8 +132,7 @@ public class AuthApplication extends WebMvcConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
       http
-          .formLogin().loginPage("/login").permitAll().and()
-          .logout().logoutSuccessHandler(customLogoutSuccessHandler)
+          .formLogin().loginPage("/login").permitAll()
           .and()
           .requestMatchers()
             .antMatchers("/login","/oauth/authorize","/oauth/confirm_access")

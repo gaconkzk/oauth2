@@ -3,8 +3,11 @@ package com.tma.dc4b.auth;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -15,12 +18,22 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class FLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
 
+  @Autowired
+  @Qualifier("jwtTokenStore")
+  TokenStore tokenStore;
 
   public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
       Authentication authentication) {
-    new SecurityContextLogoutHandler().logout(request, response, authentication);
-
-    log.debug("LOGOUT LOGOUT LOGOUT LOGOUT LOGOUT LOGOUT LOGOUT LOGOUT ");
+    String token = request.getHeader("authorization");
+    if (token != null && token.toUpperCase().startsWith("BEARER ")) {
+      String tokenValue = token.substring(token.indexOf(" ") + 1);
+      OAuth2AccessToken oAuth2AccessToken = tokenStore.readAccessToken(tokenValue);
+      if (oAuth2AccessToken != null) {
+        tokenStore.removeAccessToken(oAuth2AccessToken);
+        log.debug("remove refresh token");
+        log.debug("should error {}", tokenStore.readAccessToken(tokenValue).getValue());
+      }
+    }
 
     response.setStatus(HttpServletResponse.SC_ACCEPTED);
   }
