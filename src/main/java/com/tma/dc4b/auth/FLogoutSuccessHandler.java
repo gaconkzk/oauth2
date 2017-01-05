@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -24,17 +23,6 @@ public class FLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
 
   public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
       Authentication authentication) {
-    String token = request.getHeader("authorization");
-    if (token != null && token.toUpperCase().startsWith("BEARER ")) {
-      String tokenValue = token.substring(token.indexOf(" ") + 1);
-      OAuth2AccessToken oAuth2AccessToken = tokenStore.readAccessToken(tokenValue);
-      if (oAuth2AccessToken != null) {
-        tokenStore.removeAccessToken(oAuth2AccessToken);
-        log.debug("remove refresh token");
-        log.debug("should error {}", tokenStore.readAccessToken(tokenValue).getValue());
-      }
-    }
-
     response.setStatus(HttpServletResponse.SC_ACCEPTED);
   }
 }
