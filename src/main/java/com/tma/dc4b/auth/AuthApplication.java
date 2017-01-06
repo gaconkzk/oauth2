@@ -74,6 +74,7 @@ public class AuthApplication extends WebMvcConfigurerAdapter {
           .inMemory()
           .withClient("acme")
           .secret("acmesecret")
+          .autoApprove(true)
           .authorizedGrantTypes("authorization_code", "refresh_token", "password").scopes("openid");
     }
 
@@ -131,6 +132,7 @@ public class AuthApplication extends WebMvcConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+      // @formatter: off
       http
           .formLogin().loginPage("/login").permitAll()
           .and()
@@ -139,6 +141,7 @@ public class AuthApplication extends WebMvcConfigurerAdapter {
           .and()
             .authorizeRequests()
               .anyRequest().authenticated();
+      // @formatter: off
     }
 
     @Override
