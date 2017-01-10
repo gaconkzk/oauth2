@@ -23,8 +23,8 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -53,6 +53,7 @@ public class AuthApplication extends WebMvcConfigurerAdapter {
   @EnableAuthorizationServer
   protected static class OAuth2Config extends
       AuthorizationServerConfigurerAdapter {
+
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -60,7 +61,7 @@ public class AuthApplication extends WebMvcConfigurerAdapter {
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
       endpoints
           .authenticationManager(authenticationManager)
-          .accessTokenConverter(accessTokenConverter());
+          .tokenStore(tokenStore());
     }
 
     @Override
@@ -80,7 +81,9 @@ public class AuthApplication extends WebMvcConfigurerAdapter {
 
     @Bean(name = "jwtTokenStore")
     public TokenStore tokenStore() {
-      return new JwtTokenStore(accessTokenConverter());
+      InMemoryTokenStore inMemoryTokenStore = new InMemoryTokenStore();
+      return inMemoryTokenStore;
+//      return new JwtTokenStore(accessTokenConverter());
     }
 
     @Bean
@@ -113,8 +116,8 @@ public class AuthApplication extends WebMvcConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
       http.requestMatchers().anyRequest().and()
-          .logout().invalidateHttpSession(true).clearAuthentication(true)
-          .logoutSuccessHandler(customLogoutSuccessHandler).and()
+//          .logout().invalidateHttpSession(true).clearAuthentication(true)
+//          .logoutSuccessHandler(customLogoutSuccessHandler).and()
           .authorizeRequests().anyRequest().permitAll();
     }
   }
@@ -123,7 +126,7 @@ public class AuthApplication extends WebMvcConfigurerAdapter {
   // TODO: We need user details services, password encoder here
   @Configuration
   @Order(-20)
-  protected  static class LoginConfig extends WebSecurityConfigurerAdapter {
+  protected static class LoginConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -132,16 +135,18 @@ public class AuthApplication extends WebMvcConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-      // @formatter: off
+      // @formatter:off
       http
+          .logout().invalidateHttpSession(true).clearAuthentication(true)
+        .and()
           .formLogin().loginPage("/login").permitAll()
-          .and()
+        .and()
           .requestMatchers()
             .antMatchers("/login","/oauth/authorize","/oauth/confirm_access")
-          .and()
-            .authorizeRequests()
-              .anyRequest().authenticated();
-      // @formatter: off
+        .and()
+          .authorizeRequests()
+            .anyRequest().authenticated();
+      // @formatter:on
     }
 
     @Override
