@@ -50,7 +50,7 @@ public class AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
         .authorizedGrantTypes("authorization_code", "refresh_token", "password").scopes("openid");
   }
 
-  @Bean(name = "jwtTokenStore")
+  @Bean
   public TokenStore tokenStore() {
     InMemoryTokenStore inMemoryTokenStore = new InMemoryTokenStore();
     return inMemoryTokenStore;
