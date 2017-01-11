@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<changelog xmlns="https://fbiville.github.io/liquigraph/schema/1.0/liquigraph.xsd">
+  <!-- import sub-changelogs -->
+  <import resource="initialize.xml"/>
+</changelog>

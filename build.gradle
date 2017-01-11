@@ -1,6 +1,10 @@
 buildscript {
     ext {
         springBootVersion = '1.4.3.RELEASE'
+        neo4jOgmVersion = '2.0.6'
+        liquigraphVersion = '3.0.2-SNAPSHOT'
+        liquigraphSpringBootStarterVersion ='3.0.2-SNAPSHOT'
+        hikariVersion = '2.5.1'
         lombokVersion = '1.16.12'
     }
     repositories {
@@ -26,22 +30,35 @@ targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots"
+    }
     maven { url "https://repo.spring.io/snapshot" }
     maven { url "https://repo.spring.io/milestone" }
 }
 
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-security")
-
-    compile("org.springframework.boot:spring-boot-starter-freemarker")
-
     compile("org.springframework.security.oauth:spring-security-oauth2")
-
     compile("org.springframework.security:spring-security-jwt")
 
-    testCompile("org.springframework.boot:spring-boot-starter-test")
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-freemarker")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
 
+    compile("org.springframework.boot:spring-boot-starter-data-neo4j")
+
+//    compile("org.liquigraph:liquigraph-core:${liquigraphVersion}")
+//    compile("org.liquigraph:liquigraph-spring-boot-starter:${liquigraphSpringBootStarterVersion}")
+
+    compile("com.zaxxer:HikariCP:${hikariVersion}")
+
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+    testCompile("org.apache.httpcomponents:httpclient")
+
+    runtime("org.neo4j:neo4j-ogm-embedded-driver:${neo4jOgmVersion}")
+
+    // Preprocessors
     compileOnly("org.projectlombok:lombok:${lombokVersion}")
 }

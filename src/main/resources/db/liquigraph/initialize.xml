@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<changelog xmlns="https://fbiville.github.io/liquigraph/schema/1.0/liquigraph.xsd">
+  <!-- import sub-changelogs -->
+  <changeset id="init_data" author="tntvu">
+    <query>CREATE (u:User {username: "admin", password: "admin", accountNonLocked: true}) RETURN u
+    </query>
+    <query>CREATE (u:User {username: "user", password: "password", accountNonLocked: true}) RETURN
+      u
+    </query>
+  </changeset>
+</changelog>

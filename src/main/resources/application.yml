@@ -2,8 +2,20 @@ server:
   contextPath: /uaa
   port: 9999
 
-security.user:
-  password: password
+security:
+  user:
+    password: password
+  ignored: /css/**,/js/**,/favicon.ico
+
+spring.data.neo4j:
+  uri: file:///tmp/uaa-neo4j
+  session.scope: session
+#  changeLog: classpath:/db/changelog.xml
+
+#liquigraph:
+#  url: file:///tmp/uaa-neo4j
+#  changeLog: classpath:/db/changelog.xml
+
 
 logging.level:
   org.springframework.security: DEBUG
