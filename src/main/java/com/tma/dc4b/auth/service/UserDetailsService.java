@@ -20,7 +20,8 @@ public class UserDetailsService implements
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    return new UserDTO(Optional.ofNullable(userRepository.findOneByUsername(username))
+    return new UserDTO(
+        Optional.ofNullable(userRepository.findOneByUsernameAndAccountNonLocked(username, true))
         .orElseThrow(() -> new UsernameNotFoundException("User not existed")));
   }
 }

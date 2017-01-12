@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
-import org.neo4j.ogm.annotation.Property;
 import org.springframework.security.core.GrantedAuthority;
 
 /**
@@ -20,7 +19,6 @@ public class Authority implements GrantedAuthority {
   @Getter
   private Long id;
 
-  @Property
   private String authority;
 
   public Authority(String authority) {

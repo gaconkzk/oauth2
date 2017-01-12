@@ -4,4 +4,5 @@
   <import resource="initialize.xml"/>
   <import resource="initialize2.xml"/>
   <import resource="initialize3.xml"/>
+  <import resource="initialize4.xml"/>
 </changelog>

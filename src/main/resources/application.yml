@@ -12,7 +12,6 @@ spring.data.neo4j:
   session.scope: session
 
 logging.level:
-  org.neo4j: DEBUG
-  org.springframework.data: DEBUG
+  org.springframework.data: WARN
   org.springframework.security: DEBUG
   com.tma.dc4b: DEBUG

@@ -35,21 +35,21 @@ public class UserDTO implements UserDetails {
 
   @Override
   public boolean isAccountNonExpired() {
-    return true;
+    return this.user.isAccountNonExpired();
   }
 
   @Override
   public boolean isAccountNonLocked() {
-    return true;
+    return this.user.isAccountNonLocked();
   }
 
   @Override
   public boolean isCredentialsNonExpired() {
-    return true;
+    return this.user.isCredentialsNonExpired();
   }
 
   @Override
   public boolean isEnabled() {
-    return true;
+    return this.user.isEnabled();
   }
 }

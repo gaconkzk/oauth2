@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<changelog xmlns="https://fbiville.github.io/liquigraph/schema/1.0/liquigraph.xsd">
+  <!-- import sub-changelogs -->
+  <changeset id="init_data_4" author="tntvu">
+    <query><![CDATA[
+      MATCH (u:User)
+      WHERE u.username = 'admin' OR u.username = 'user'
+      SET u += {accountNonLocked: true, accountNonExpired: true, credentialsNonExpired: true, enabled: true}
+      RETURN u
+      ]]>
+    </query>
+  </changeset>
+</changelog>
