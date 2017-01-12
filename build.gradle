@@ -2,7 +2,7 @@ buildscript {
     ext {
         springBootVersion = '1.4.3.RELEASE'
         neo4jOgmVersion = '2.0.6'
-        liquigraphVersion = '3.0.1'
+        liquigraphVersion = '3.0.2-SNAPSHOT'
         liquigraphSpringBootStarterVersion ='3.0.2-SNAPSHOT'
         hikariVersion = '2.5.1'
         lombokVersion = '1.16.12'
@@ -60,6 +60,8 @@ dependencies {
     testCompile("org.apache.httpcomponents:httpclient")
 
     runtime("org.neo4j:neo4j-ogm-bolt-driver:${neo4jOgmVersion}")
+    runtime("org.neo4j:neo4j-ogm-http-driver:${neo4jOgmVersion}")
+    runtime("org.neo4j:neo4j-ogm-embedded-driver:${neo4jOgmVersion}")
 
     // Preprocessors
     compileOnly("org.projectlombok:lombok:${lombokVersion}")

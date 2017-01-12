@@ -7,9 +7,12 @@ security:
     password: password
   ignored: /css/**,/js/**,/favicon.ico
 
-spring.data.neo4j:
-  uri: bolt://neo4j:123456@localhost
-  session.scope: session
+theflies:
+  dbUri: bolt://neo4j:123456@localhost
+  dbDriverClassName: org.neo4j.ogm.drivers.bolt.driver.BoltDriver
+  dbUsername: neo4j
+  dbPassword: 123456
+
 
 logging.level:
   org.springframework.data: WARN
