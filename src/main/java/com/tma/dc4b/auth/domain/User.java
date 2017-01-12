@@ -2,8 +2,12 @@ package com.tma.dc4b.auth.domain;
 
 import java.util.Collection;
 import java.util.Set;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
+import org.neo4j.ogm.annotation.Property;
 import org.neo4j.ogm.annotation.Relationship;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,15 +16,18 @@ import org.springframework.security.core.userdetails.UserDetails;
  *
  */
 @Setter
+@NoArgsConstructor
 @NodeEntity
 public class User implements UserDetails {
 
+  @GraphId
+  @Getter
+  private Long id;
+
+  @Property
   private String password;
+  @Property
   private String username;
-  private boolean isAccountNonExpired = true;
-  private boolean isAccountNonLocked = true;
-  private boolean isCredentialsNonExpired = true;
-  private boolean isEnabled = true;
 
   @Relationship(direction = Relationship.INCOMING, type = "HAS")
   private Set<Authority> authorities;
@@ -47,21 +54,21 @@ public class User implements UserDetails {
 
   @Override
   public boolean isAccountNonExpired() {
-    return this.isAccountNonExpired;
+    return true;
   }
 
   @Override
   public boolean isAccountNonLocked() {
-    return this.isAccountNonLocked;
+    return true;
   }
 
   @Override
   public boolean isCredentialsNonExpired() {
-    return this.isCredentialsNonExpired;
+    return true;
   }
 
   @Override
   public boolean isEnabled() {
-    return this.isEnabled;
+    return true;
   }
 }

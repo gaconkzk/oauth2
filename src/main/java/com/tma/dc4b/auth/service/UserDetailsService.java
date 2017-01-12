@@ -1,6 +1,8 @@
 package com.tma.dc4b.auth.service;
 
+import com.tma.dc4b.auth.dto.UserDTO;
 import com.tma.dc4b.auth.repository.UserRepository;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,7 +20,7 @@ public class UserDetailsService implements
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    return userRepository.findOneByUsernameAndAccountNonLocked(username, true)
-        .orElseThrow(() -> new UsernameNotFoundException("User not existed"));
+    return new UserDTO(Optional.ofNullable(userRepository.findOneByUsername(username))
+        .orElseThrow(() -> new UsernameNotFoundException("User not existed")));
   }
 }

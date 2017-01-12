@@ -1,4 +1,4 @@
-package com.tma.dc4b.auth;
+package com.tma.dc4b.auth.web.rest;
 
 import java.security.Principal;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;

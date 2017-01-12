@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<changelog xmlns="https://fbiville.github.io/liquigraph/schema/1.0/liquigraph.xsd">
+  <!-- import sub-changelogs -->
+  <changeset id="init_data_3" author="tntvu">
+    <query><![CDATA[
+      MATCH (u:User),(a:Authority)
+      WHERE u.username = 'admin' AND a.authority = 'ROLE_ADMIN'
+      CREATE (u)<-[r:HAS]-(a)
+      RETURN r
+      ]]>
+    </query>
+    <query><![CDATA[
+      MATCH (u:User),(a:Authority)
+      WHERE u.username = 'user' AND a.authority = 'ROLE_USER'
+      CREATE (u)<-[r:HAS]-(a)
+      RETURN r
+      ]]>
+    </query>
+  </changeset>
+</changelog>

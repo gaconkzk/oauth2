@@ -2,7 +2,7 @@ buildscript {
     ext {
         springBootVersion = '1.4.3.RELEASE'
         neo4jOgmVersion = '2.0.6'
-        liquigraphVersion = '3.0.2-SNAPSHOT'
+        liquigraphVersion = '3.0.1'
         liquigraphSpringBootStarterVersion ='3.0.2-SNAPSHOT'
         hikariVersion = '2.5.1'
         lombokVersion = '1.16.12'
@@ -47,17 +47,19 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-freemarker")
     compile("org.springframework.boot:spring-boot-starter-actuator")
 
-    compile("org.springframework.boot:spring-boot-starter-data-neo4j")
+//    compile("org.springframework.boot:spring-boot-starter-data-neo4j")
 
-//    compile("org.liquigraph:liquigraph-core:${liquigraphVersion}")
+    compile("org.springframework.data:spring-data-neo4j")
+
+    compile("org.liquigraph:liquigraph-core:${liquigraphVersion}")
 //    compile("org.liquigraph:liquigraph-spring-boot-starter:${liquigraphSpringBootStarterVersion}")
 
-    compile("com.zaxxer:HikariCP:${hikariVersion}")
+//    compile("com.zaxxer:HikariCP:${hikariVersion}")
 
     testCompile("org.springframework.boot:spring-boot-starter-test")
     testCompile("org.apache.httpcomponents:httpclient")
 
-    runtime("org.neo4j:neo4j-ogm-embedded-driver:${neo4jOgmVersion}")
+    runtime("org.neo4j:neo4j-ogm-bolt-driver:${neo4jOgmVersion}")
 
     // Preprocessors
     compileOnly("org.projectlombok:lombok:${lombokVersion}")

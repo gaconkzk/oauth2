@@ -1,18 +1,8 @@
 package com.tma.dc4b.auth.config;
 
-import com.tma.dc4b.auth.domain.Authority;
-import com.tma.dc4b.auth.domain.User;
-import com.tma.dc4b.auth.repository.AuthorityRepository;
-import com.tma.dc4b.auth.repository.UserRepository;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.neo4j.ogm.session.SessionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.event.EventListener;
 import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -20,25 +10,19 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  *
  */
 @Configuration
-@EnableNeo4jRepositories
+@EnableNeo4jRepositories(basePackages = "com.tma.dc4b.auth.repository")
 @EnableTransactionManagement
 public class DatabaseConfig {
-
-  @Autowired
-  UserRepository userRepository;
-  @Autowired
-  AuthorityRepository authorityRepository;
-
   @Bean
-  @EventListener(ApplicationReadyEvent.class)
-  CommandLineRunner demo() {
-    return args -> {
-      userRepository.deleteAll();
-      User user = new User("user", "password");
-      List<Authority> authorities = Collections.singletonList(new Authority("ROLE_USER"));
-      user.setAuthorities(new HashSet<>(authorities));
-      authorityRepository.save(authorities);
-      userRepository.save(user);
-    };
+  public SessionFactory getSessionFactory() {
+//    org.neo4j.ogm.config.Configuration config = new org.neo4j.ogm.config.Configuration();
+//    config.driverConfiguration()
+//        .setDriverClassName("org.neo4j.ogm.drivers.bolt.driver.BoltDriver")
+//        .setURI("bolt://neo4j:password@localhost")
+//        .setEncryptionLevel("NONE");
+//        .setTrustStrategy("TRUST_ON_FIRST_USE")
+//        .setTrustCertFile("/tmp/cert");
+//    return new SessionFactory(config, "com.tma.dc4b.auth.domain");
+    return new SessionFactory("com.tma.dc4b.auth.domain");
   }
 }
