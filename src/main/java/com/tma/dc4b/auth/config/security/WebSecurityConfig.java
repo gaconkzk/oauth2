@@ -30,13 +30,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     // @formatter:off
       http
-//          .logout().invalidateHttpSession(true).clearAuthentication(true)
+          .logout().invalidateHttpSession(true).clearAuthentication(true)
 //          .logoutSuccessHandler(customLogoutSuccessHandler)
-//        .and()
+        .and()
           .formLogin().loginPage("/login").permitAll()
-//        .and()
-//          .requestMatchers()
-//            .antMatchers("/login","/oauth/authorize","/oauth/confirm_access")
+        .and()
+          .requestMatchers()
+            .antMatchers("/login","/oauth/authorize","/oauth/confirm_access","/")
         .and()
           .authorizeRequests()
             .anyRequest().authenticated();
